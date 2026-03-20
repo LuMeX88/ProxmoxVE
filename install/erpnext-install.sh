@@ -145,9 +145,10 @@ msg_ok "Created frappe User"
 # Step 7: Install Frappe Bench CLI
 # ──────────────────────────────────────────────────────────────────────────────
 msg_info "Installing Frappe Bench CLI"
-$STD pipx install frappe-bench
-pipx ensurepath >/dev/null 2>&1
-ln -sf /root/.local/bin/bench /usr/local/bin/bench 2>/dev/null || true
+sudo -u frappe bash -c "pipx install frappe-bench"
+sudo -u frappe bash -c "pipx ensurepath" >/dev/null 2>&1
+# Symlink from frappe's pipx path (not root's) so all users can reach it
+ln -sf /home/frappe/.local/bin/bench /usr/local/bin/bench
 msg_ok "Installed Frappe Bench CLI"
 
 # ──────────────────────────────────────────────────────────────────────────────
