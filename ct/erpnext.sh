@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
 # Copyright (c) 2024 LuMeX88
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 # Source: https://erpnext.com/ | Github: https://github.com/frappe/erpnext
+
+# Source the community-scripts framework (build.func lives upstream, not in this fork)
+source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
 
 APP="ERPNext"
 var_tags="${var_tags:-erp;finance;business}"
@@ -12,6 +14,11 @@ var_disk="${var_disk:-16}"
 var_os="${var_os:-debian}"
 var_version="${var_version:-12}"
 var_unprivileged="${var_unprivileged:-1}"
+
+# Patch build_container() to download the install script from this fork
+# instead of community-scripts (where erpnext-install.sh does not exist).
+# Only /install/ paths are affected; all /misc/ framework URLs stay upstream.
+eval "$(declare -f build_container | sed 's|community-scripts/ProxmoxVE/main/install/|LuMeX88/ProxmoxVE/main/install/|g')"
 
 header_info "$APP"
 variables
