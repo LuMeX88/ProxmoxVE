@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2024 LuMeX88
+# Copyright (c) 2026 LuMeX88
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 # Source: https://erpnext.com/ | Github: https://github.com/frappe/erpnext
 # Description: Installs ERPNext v15 with Frappe Bench, MariaDB, Redis, Nginx, Supervisor
@@ -142,12 +142,16 @@ fi
 msg_ok "Created frappe User"
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Step 7: Install Frappe Bench CLI
+# Step 7: Install uv + Frappe Bench CLI
 # ──────────────────────────────────────────────────────────────────────────────
+msg_info "Installing uv (Python package manager)"
+curl -fsSL https://astral.sh/uv/install.sh | sh
+ln -sf /root/.local/bin/uv /usr/local/bin/uv
+msg_ok "Installed uv"
+
 msg_info "Installing Frappe Bench CLI"
 sudo -u frappe bash -c "pipx install frappe-bench"
 sudo -u frappe bash -c "pipx ensurepath" >/dev/null 2>&1
-# Symlink from frappe's pipx path (not root's) so all users can reach it
 ln -sf /home/frappe/.local/bin/bench /usr/local/bin/bench
 msg_ok "Installed Frappe Bench CLI"
 
