@@ -118,8 +118,7 @@ apt-get install -y -qq \
     cron \
     nano \
     htop \
-    nginx \
-    software-properties-common
+    nginx
 msg_ok "System dependencies installed"
 
 # ──────────────────────────────────────────────────────────────────────────────
